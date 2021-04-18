@@ -83,7 +83,7 @@ namespace ApiGraph.Controllers
 
                 telemetryClient.TrackTrace("The email was sent correcly to: " + message.ToRecipients.FirstOrDefault().EmailAddress.Address);
 
-                return Ok("Connection with Graph was Successfully, El subject del mail es: " + subject);
+                return Ok("Connection with Graph was Successfully, El subject del mail es: " + parameters.subject);
             }
             catch (Exception e)
             {
