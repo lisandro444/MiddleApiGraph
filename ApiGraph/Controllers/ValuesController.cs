@@ -49,6 +49,7 @@ namespace ApiGraph.Controllers
             }
             catch (Exception e)
             {
+                telemetryClient.TrackTrace("Sending Email Exception:" +e.Message);
                 return Ok("Error Message:" + e.Message + "\n" + e.StackTrace);
             }
         }
