@@ -1,4 +1,5 @@
-﻿using Microsoft.ApplicationInsights;
+﻿using ApiGraph.Entities;
+using Microsoft.ApplicationInsights;
 using Microsoft.Graph;
 using Microsoft.Graph.Auth;
 using Microsoft.Identity.Client;
@@ -18,7 +19,7 @@ namespace ApiGraph.Controllers
 
         [HttpPost]
         [Route("api/Integration/SendMail")]
-        public async Task<IHttpActionResult> SendMail(string subject, string mailTo)
+        public async Task<IHttpActionResult> SendMail([FromBody] MailParameters parameters)
         {
             try
             {
@@ -40,7 +41,7 @@ namespace ApiGraph.Controllers
      
                     var message = new Message
                     {
-                        Subject = subject,
+                        Subject = parameters.subject,
                         Body = new ItemBody
                         {
                             ContentType = BodyType.Html,
@@ -52,7 +53,7 @@ namespace ApiGraph.Controllers
                             {
                                 EmailAddress = new EmailAddress
                                 {
-                                    Address = mailTo
+                                    Address = parameters.mailTo
                                 }
                             },
                              new Recipient
