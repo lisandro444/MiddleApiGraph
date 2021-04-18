@@ -61,6 +61,13 @@ namespace ApiGraph.Controllers
                                 {
                                     Address = "c_lrossi@medicalcardsystem.com"
                                 }
+                            },
+                             new Recipient
+                            {
+                                EmailAddress = new EmailAddress
+                                {
+                                    Address = "admin@lisandrorossi444.onmicrosoft.com"
+                                }
                             }
 
                         }
@@ -73,7 +80,7 @@ namespace ApiGraph.Controllers
                             .Request()
                             .PostAsync();
 
-                telemetryClient.TrackTrace("The email was sent correcly to: " + message.ToRecipients.FirstOrDefault().EmailAddress);
+                telemetryClient.TrackTrace("The email was sent correcly to: " + message.ToRecipients.FirstOrDefault().EmailAddress.Address);
 
                 return Ok("Connection with Graph was Successfully, El subject del mail es: " + subject);
             }
