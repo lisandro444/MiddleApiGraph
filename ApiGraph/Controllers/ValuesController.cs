@@ -45,7 +45,7 @@ namespace ApiGraph.Controllers
 
                 var groups = await graphClient.Groups.Request().Select(x => new { x.Id, x.DisplayName }).GetAsync();
 
-                return Ok("Success" + groups.FirstOrDefault().DisplayName);
+                return Ok("Connection with Graph was Successfully: " + groups.FirstOrDefault().Id);
             }
             catch (Exception e)
             {
