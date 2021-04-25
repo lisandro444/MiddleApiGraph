@@ -1,4 +1,5 @@
 ﻿using ApiGraph.Entities;
+using ApiGraph.Helpers;
 using Microsoft.ApplicationInsights;
 using Microsoft.Graph;
 using Microsoft.Graph.Auth;
@@ -25,9 +26,18 @@ namespace ApiGraph.Controllers
             {
                 telemetryClient.TrackTrace("Sending Email....");
 
-                var clientId = "3d05fbdd-713c-40d7-be36-3b2a7344d860";
-                var tenantId = "629fd4e8-9d26-4da5-85ff-cc01ca1948c4";
-                var clientSecret = "C-vI8s0VlB1TCTY~lq39y1dg5Q~tZ9kxX.";
+                string keyVaultEndpoint = "https://graphdataconnection.vault.azure.net/";
+
+                var kv = new KeyVaultHelper(keyVaultEndpoint);
+                var clientId = kv.RetrieveSecret($"clientId");
+                var tenantId = kv.RetrieveSecret($"tenantId");
+                var clientSecret = kv.RetrieveSecret($"clientSecret");
+
+                telemetryClient.TrackTrace("Getting values from Key Vault: clientId: " + clientId + " tenantId: " + tenantId + " clientSecret: " + clientSecret);
+
+                //var clientId = "3d05fbdd-713c-40d7-be36-3b2a7344d860";
+                //var tenantId = "629fd4e8-9d26-4da5-85ff-cc01ca1948c4";
+                //var clientSecret = "C-vI8s0VlB1TCTY~lq39y1dg5Q~tZ9kxX.";
 
 
                 IConfidentialClientApplication confidentialClientApplication = ConfidentialClientApplicationBuilder
