@@ -15,7 +15,7 @@ namespace ApiGraph.Helpers
         public KeyVaultHelper(string endpoint)
         {
             keyVaultEndpoint = (endpoint.EndsWith("/")) ? endpoint : endpoint + "/";
-            AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider();
+            AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider("RunAs=App;");
             keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
         }
         public string RetrieveSecret(string secretName)
