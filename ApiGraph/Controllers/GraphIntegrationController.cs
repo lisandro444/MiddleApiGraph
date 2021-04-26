@@ -29,32 +29,24 @@ namespace ApiGraph.Controllers
             {
                 telemetryClient.TrackTrace("Sending Email....");
 
-                string keyVaultEndpoint = "https://graphdataconnection.vault.azure.net/";
-
-                //var kv = new KeyVaultHelper(keyVaultEndpoint);
-                //var clientId = kv.RetrieveSecret($"clientId");
-                //var tenantId = kv.RetrieveSecret($"tenantId");
-                //var clientSecret = kv.RetrieveSecret($"clientSecret");
-
-                
-
                 //var clientId = "3d05fbdd-713c-40d7-be36-3b2a7344d860";
                 //var tenantId = "629fd4e8-9d26-4da5-85ff-cc01ca1948c4";
                 //var clientSecret = "C-vI8s0VlB1TCTY~lq39y1dg5Q~tZ9kxX.";
 
                 string uri = Environment.GetEnvironmentVariable("KEY_VAULT_URI");
-                SecretClient client = new SecretClient(new Uri(uri), new DefaultAzureCredential());
+
+                var credential = new DefaultAzureCredential(new DefaultAzureCredentialOptions { ExcludeSharedTokenCacheCredential = true });
+                // credential fix reference https://github.com/Azure/azure-sdk-for-net/issues/17052
+                
+                SecretClient client = new SecretClient(new Uri(uri), credential);
 
                 telemetryClient.TrackTrace("URI from the KeyVault: " + uri);
 
                 var clientId = await client.GetSecretAsync("clientId");
-                var tenantId = await client.GetSecretAsync("tenantId");
+                 var tenantId = await client.GetSecretAsync("tenantId");
                 var clientSecret = await client.GetSecretAsync("clientSecret");
 
                 telemetryClient.TrackTrace("Getting values from Key Vault: clientId: " + clientId.Value + " tenantId: " + tenantId.Value + " clientSecret: " + clientSecret.Value);
-
-                //ViewBag.Secret = $"Secret: {secret.Value}";
-
 
                 IConfidentialClientApplication confidentialClientApplication = ConfidentialClientApplicationBuilder
                     .Create(clientId.Value.Value)
