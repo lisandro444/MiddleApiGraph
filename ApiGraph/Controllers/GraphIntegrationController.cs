@@ -20,6 +20,7 @@ namespace ApiGraph.Controllers
     public class GraphIntegrationController : ApiController
     {
         private TelemetryClient telemetryClient = new TelemetryClient();
+        private GraphServiceClient graphClient;
 
         [HttpPost]
         [Route("api/Integration/SendMail")]
@@ -42,20 +43,27 @@ namespace ApiGraph.Controllers
 
                 telemetryClient.TrackTrace("URI from the KeyVault: " + uri);
 
-                var clientId = await client.GetSecretAsync("clientId");
-                 var tenantId = await client.GetSecretAsync("tenantId");
-                var clientSecret = await client.GetSecretAsync("clientSecret");
+                try
+                {
+                    KeyVaultSecret clientId = await client.GetSecretAsync("clientId");
+                    KeyVaultSecret tenantId = await client.GetSecretAsync("tenantId");
+                    KeyVaultSecret clientSecret = await client.GetSecretAsync("clientSecret");
+                    telemetryClient.TrackTrace("Getting values from Key Vault: clientId: " + clientId.Value + " tenantId: " + tenantId.Value + " clientSecret: " + clientSecret.Value);
 
-                telemetryClient.TrackTrace("Getting values from Key Vault: clientId: " + clientId.Value + " tenantId: " + tenantId.Value + " clientSecret: " + clientSecret.Value);
+                    IConfidentialClientApplication confidentialClientApplication = ConfidentialClientApplicationBuilder
+                        .Create(clientId.Value)
+                        .WithTenantId(tenantId.Value)
+                        .WithClientSecret(clientSecret.Value)
+                        .Build();
+                    ClientCredentialProvider authProvider = new ClientCredentialProvider(confidentialClientApplication);
+                    graphClient = new GraphServiceClient(authProvider);
 
-                IConfidentialClientApplication confidentialClientApplication = ConfidentialClientApplicationBuilder
-                    .Create(clientId.Value.Value)
-                    .WithTenantId(tenantId.Value.Value)
-                    .WithClientSecret(clientSecret.Value.Value)
-                    .Build();
+                }
+                catch (AuthenticationFailedException e)
+                {
+                    telemetryClient.TrackTrace($"Authentication Failed. {e.Message}");
+                }
 
-                ClientCredentialProvider authProvider = new ClientCredentialProvider(confidentialClientApplication);
-                GraphServiceClient graphClient = new GraphServiceClient(authProvider);
      
                     var message = new Message
                     {
