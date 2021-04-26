@@ -9,19 +9,19 @@ namespace ApiGraph.Helpers
 {
     public class KeyVaultHelper
     {
-        private string keyVaultEndpoint;
-        private KeyVaultClient keyVaultClient;
-        public string KeyVaultEndpoint { get => keyVaultEndpoint; set => keyVaultEndpoint = value; }
-        public KeyVaultHelper(string endpoint)
-        {
-            keyVaultEndpoint = (endpoint.EndsWith("/")) ? endpoint : endpoint + "/";
-            AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider("RunAs=CurrentUser");
-            keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
-        }
-        public string RetrieveSecret(string secretName)
-        {
-            var secret = keyVaultClient.GetSecretAsync($"{keyVaultEndpoint}secrets/{secretName}").ConfigureAwait(false).GetAwaiter().GetResult();
-            return secret.Value;
-        }
+        //private string keyVaultEndpoint;
+        //private KeyVaultClient keyVaultClient;
+        //public string KeyVaultEndpoint { get => keyVaultEndpoint; set => keyVaultEndpoint = value; }
+        //public KeyVaultHelper(string endpoint)
+        //{
+        //    keyVaultEndpoint = (endpoint.EndsWith("/")) ? endpoint : endpoint + "/";
+        //    AzureServiceTokenProvider azureServiceTokenProvider = new AzureServiceTokenProvider("RunAs=CurrentUser");
+        //    keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
+        //}
+        //public string RetrieveSecret(string secretName)
+        //{
+        //    var secret = keyVaultClient.GetSecretAsync($"{keyVaultEndpoint}secrets/{secretName}").ConfigureAwait(false).GetAwaiter().GetResult();
+        //    return secret.Value;
+        //}
     }
 }
