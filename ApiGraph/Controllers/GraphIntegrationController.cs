@@ -42,8 +42,8 @@ namespace ApiGraph.Controllers
 
                 telemetryClient.TrackTrace("URI from the KeyVault: " + uri);
 
-                try
-                {
+                //try
+                //{
                     KeyVaultSecret clientId = await client.GetSecretAsync("clientId");
                     KeyVaultSecret tenantId = await client.GetSecretAsync("tenantId");
                     KeyVaultSecret clientSecret = await client.GetSecretAsync("clientSecret");
@@ -103,11 +103,11 @@ namespace ApiGraph.Controllers
 
                     return Ok("Connection with Graph was Successfully, El subject del mail es: " + parameters.subject);
 
-                }
-                catch (AuthenticationFailedException e)
-                {
-                    telemetryClient.TrackTrace($"Authentication Failed. {e.Message}");
-                }
+                //}
+                //catch (AuthenticationFailedException e)
+                //{
+                //    telemetryClient.TrackTrace($"Authentication Failed. {e.Message}");
+                //}
 
             }
             catch (Exception e)
