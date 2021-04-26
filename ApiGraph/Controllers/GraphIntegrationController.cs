@@ -20,7 +20,6 @@ namespace ApiGraph.Controllers
     public class GraphIntegrationController : ApiController
     {
         private TelemetryClient telemetryClient = new TelemetryClient();
-        private GraphServiceClient graphClient;
 
         [HttpPost]
         [Route("api/Integration/SendMail")]
@@ -56,15 +55,8 @@ namespace ApiGraph.Controllers
                         .WithClientSecret(clientSecret.Value)
                         .Build();
                     ClientCredentialProvider authProvider = new ClientCredentialProvider(confidentialClientApplication);
-                    graphClient = new GraphServiceClient(authProvider);
+                    GraphServiceClient graphClient = new GraphServiceClient(authProvider);
 
-                }
-                catch (AuthenticationFailedException e)
-                {
-                    telemetryClient.TrackTrace($"Authentication Failed. {e.Message}");
-                }
-
-     
                     var message = new Message
                     {
                         Subject = parameters.subject,
@@ -107,9 +99,16 @@ namespace ApiGraph.Controllers
                             .Request()
                             .PostAsync();
 
-                telemetryClient.TrackTrace("The email was sent correcly to: " + message.ToRecipients.FirstOrDefault().EmailAddress.Address);
+                    telemetryClient.TrackTrace("The email was sent correcly to: " + message.ToRecipients.FirstOrDefault().EmailAddress.Address);
 
-                return Ok("Connection with Graph was Successfully, El subject del mail es: " + parameters.subject);
+                    return Ok("Connection with Graph was Successfully, El subject del mail es: " + parameters.subject);
+
+                }
+                catch (AuthenticationFailedException e)
+                {
+                    telemetryClient.TrackTrace($"Authentication Failed. {e.Message}");
+                }
+
             }
             catch (Exception e)
             {
