@@ -57,9 +57,9 @@ namespace ApiGraph.Controllers
 
 
                 IConfidentialClientApplication confidentialClientApplication = ConfidentialClientApplicationBuilder
-                    .Create(clientId.Value.ToString())
-                    .WithTenantId(tenantId.Value.ToString())
-                    .WithClientSecret(clientSecret.ToString())
+                    .Create(clientId.Value.Value)
+                    .WithTenantId(tenantId.Value.Value)
+                    .WithClientSecret(clientSecret.Value.Value)
                     .Build();
 
                 ClientCredentialProvider authProvider = new ClientCredentialProvider(confidentialClientApplication);
