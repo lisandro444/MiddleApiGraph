@@ -35,6 +35,10 @@ namespace ApiGraph.Controllers
 
                 string uri = Environment.GetEnvironmentVariable("KEY_VAULT_URI");
 
+                Environment.SetEnvironmentVariable("AZURE_CLIENT_ID", "xxx");
+                Environment.SetEnvironmentVariable("AZURE_CLIENT_SECRET", "xxx");
+                Environment.SetEnvironmentVariable("AZURE_TENANT_ID", "xxx");
+
                 var credential = new DefaultAzureCredential(new DefaultAzureCredentialOptions { ExcludeSharedTokenCacheCredential = true });
                 // credential fix reference https://github.com/Azure/azure-sdk-for-net/issues/17052
                 
