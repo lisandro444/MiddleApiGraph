@@ -47,9 +47,9 @@ namespace ApiGraph.Controllers
 
                 telemetryClient.TrackTrace("URI from the KeyVault: " + uri);
 
-                Response<KeyVaultSecret> clientId = await client.GetSecretAsync("clientId");
-                Response<KeyVaultSecret> tenantId = await client.GetSecretAsync("tenantId");
-                Response<KeyVaultSecret> clientSecret = await client.GetSecretAsync("clientSecret");
+                var clientId = await client.GetSecretAsync("clientId");
+                var tenantId = await client.GetSecretAsync("tenantId");
+                var clientSecret = await client.GetSecretAsync("clientSecret");
 
                 telemetryClient.TrackTrace("Getting values from Key Vault: clientId: " + clientId.Value + " tenantId: " + tenantId.Value + " clientSecret: " + clientSecret.Value);
 
