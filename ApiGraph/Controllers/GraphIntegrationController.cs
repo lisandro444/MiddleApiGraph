@@ -50,7 +50,7 @@ namespace ApiGraph.Controllers
                 //{
                     KeyVaultSecret clientId = await client.GetSecretAsync("clientId");
                     KeyVaultSecret tenantId = await client.GetSecretAsync("tenantId");
-                    KeyVaultSecret clientSecret = await client.GetSecretAsync("clientSecret");
+                    KeyVaultSecret clientSecret = await client.GetSecretAsync("clientSecret2");
                     telemetryClient.TrackTrace("Getting values from Key Vault: clientId: " + clientId.Value + " tenantId: " + tenantId.Value + " clientSecret: " + clientSecret.Value);
 
                     IConfidentialClientApplication confidentialClientApplication = ConfidentialClientApplicationBuilder
