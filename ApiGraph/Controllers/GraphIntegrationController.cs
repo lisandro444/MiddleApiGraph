@@ -67,7 +67,7 @@ namespace ApiGraph.Controllers
                         Body = new ItemBody
                         {
                             ContentType = BodyType.Html,
-                            Content = "<h5>This email was sent from middle API</h5>"
+                            Content = parameters.body //"<h5>This email was sent from middle API</h5>"
                         },
                         ToRecipients = new List<Recipient>()
                         {

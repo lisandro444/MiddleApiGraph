@@ -9,5 +9,6 @@ namespace ApiGraph.Entities
     {
         public string subject { get; set; }
         public string mailTo { get; set; }
+        public string body { get; set; }
     }
 }
