@@ -29,36 +29,40 @@ namespace ApiGraph.Controllers
             {
                 telemetryClient.TrackTrace("Sending Email....");
 
-                //var clientId = "3d05fbdd-713c-40d7-be36-3b2a7344d860";
-                //var tenantId = "629fd4e8-9d26-4da5-85ff-cc01ca1948c4";
-                //var clientSecret = "C-vI8s0VlB1TCTY~lq39y1dg5Q~tZ9kxX.";
+                var clientId = "3d05fbdd-713c-40d7-be36-3b2a7344d860";
+                var tenantId = "629fd4e8-9d26-4da5-85ff-cc01ca1948c4";
+                var clientSecret = "C-vI8s0VlB1TCTY~lq39y1dg5Q~tZ9kxX.";
 
-                string uri = Environment.GetEnvironmentVariable("KEY_VAULT_URI");
+                //string uri = Environment.GetEnvironmentVariable("KEY_VAULT_URI");
 
-                Environment.SetEnvironmentVariable("AZURE_CLIENT_ID", "3d05fbdd-713c-40d7-be36-3b2a7344d860");
-                Environment.SetEnvironmentVariable("AZURE_CLIENT_SECRET", "C-vI8s0VlB1TCTY~lq39y1dg5Q~tZ9kxX.");
-                Environment.SetEnvironmentVariable("AZURE_TENANT_ID", "629fd4e8-9d26-4da5-85ff-cc01ca1948c4");
+                //Environment.SetEnvironmentVariable("AZURE_CLIENT_ID", "3d05fbdd-713c-40d7-be36-3b2a7344d860");
+                //Environment.SetEnvironmentVariable("AZURE_CLIENT_SECRET", "C-vI8s0VlB1TCTY~lq39y1dg5Q~tZ9kxX.");
+                //Environment.SetEnvironmentVariable("AZURE_TENANT_ID", "629fd4e8-9d26-4da5-85ff-cc01ca1948c4");
 
-                var credential = new DefaultAzureCredential(new DefaultAzureCredentialOptions { ExcludeSharedTokenCacheCredential = true });
-                // credential fix reference https://github.com/Azure/azure-sdk-for-net/issues/17052
+                //var credential = new DefaultAzureCredential(new DefaultAzureCredentialOptions { ExcludeSharedTokenCacheCredential = true });
+                //// credential fix reference https://github.com/Azure/azure-sdk-for-net/issues/17052
                 
-                SecretClient client = new SecretClient(new Uri(uri), credential);
+                //SecretClient client = new SecretClient(new Uri(uri), credential);
 
-                telemetryClient.TrackTrace("URI from the KeyVault: " + uri);
+                //telemetryClient.TrackTrace("URI from the KeyVault: " + uri);
 
                 //try
                 //{
-                    KeyVaultSecret clientId = await client.GetSecretAsync("clientId");
-                    KeyVaultSecret tenantId = await client.GetSecretAsync("tenantId");
-                    KeyVaultSecret clientSecret = await client.GetSecretAsync("clientSecret2");
-                    telemetryClient.TrackTrace("Getting values from Key Vault: clientId: " + clientId.Value + " tenantId: " + tenantId.Value + " clientSecret: " + clientSecret.Value);
+                    //KeyVaultSecret clientId = await client.GetSecretAsync("clientId");
+                    //KeyVaultSecret tenantId = await client.GetSecretAsync("tenantId");
+                    //KeyVaultSecret clientSecret = await client.GetSecretAsync("clientSecret2");
+                    //telemetryClient.TrackTrace("Getting values from Key Vault: clientId: " + clientId.Value + " tenantId: " + tenantId.Value + " clientSecret: " + clientSecret.Value);
 
                     IConfidentialClientApplication confidentialClientApplication = ConfidentialClientApplicationBuilder
-                        .Create(clientId.Value)
-                        .WithTenantId(tenantId.Value)
-                        .WithClientSecret(clientSecret.Value)
+                        //.Create(clientId.Value)
+                        //.WithTenantId(tenantId.Value)
+                        //.WithClientSecret(clientSecret.Value)
+                        //.Build();
+                        .Create(clientId)
+                        .WithTenantId(tenantId)
+                        .WithClientSecret(clientSecret)
                         .Build();
-                    ClientCredentialProvider authProvider = new ClientCredentialProvider(confidentialClientApplication);
+                ClientCredentialProvider authProvider = new ClientCredentialProvider(confidentialClientApplication);
                     GraphServiceClient graphClient = new GraphServiceClient(authProvider);
 
                     var message = new Message
